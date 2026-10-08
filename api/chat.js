@@ -1,19 +1,17 @@
-// api/chat.js
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // ቁልፉ ከ Vercel Environment Variable በሚስጥር ይወሰዳል
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'API Key አልተዋቀረም' });
+    return res.status(500).json({ error: 'GEMINI_API_KEY በ Vercel ላይ አልተመዘገበም' });
   }
 
   const { messages, systemText } = req.body;
 
   try {
-    const contents = messages.map(m => ({
+    const contents = (messages || []).map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }]
     }));
@@ -37,6 +35,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     return res.status(200).json(data);
   } catch (err) {
-    return res.status(500).json({ error: 'Server error: ' + err.message });
+    return res.status(500).json({ error: err.message });
   }
 }
