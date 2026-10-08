@@ -4,8 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>የኔ ጓደኛ (Bro AI) — My Best Friend</title>
-<link rel="icon" type="image/png" href="123.png">
-<link rel="apple-touch-icon" href="123.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,7 +28,6 @@
     --friend-bubble: linear-gradient(135deg, #232a44 0%, #1b2138 100%);
     --success: #34d399;
     --danger: #ef4444;
-    --warn: #f59e0b;
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.45);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
     --radius-sm: 10px;
@@ -129,7 +126,6 @@
     border-color: var(--border-strong);
     transform: translateY(-1px);
   }
-  .icon-btn:active { transform: scale(0.96); }
   .icon-btn svg { width: 18px; height: 18px; }
 
   /* ---------- Chat Area ---------- */
@@ -141,12 +137,10 @@
     scrollbar-color: rgba(255,255,255,0.12) transparent;
   }
   .chat::-webkit-scrollbar { width: 6px; }
-  .chat::-webkit-scrollbar-track { background: transparent; }
   .chat::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.12);
     border-radius: 999px;
   }
-  .chat::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
   .date-divider {
     text-align: center;
@@ -160,7 +154,6 @@
     border-radius: var(--radius-pill);
     font-size: 11px;
     color: var(--text-dim);
-    letter-spacing: 0.02em;
   }
 
   .msg-row {
@@ -169,8 +162,8 @@
     animation: msgIn 0.35s cubic-bezier(0.2, 0.7, 0.3, 1.2);
   }
   @keyframes msgIn {
-    from { opacity: 0; transform: translateY(8px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .msg-row.friend { justify-content: flex-start; }
   .msg-row.user { justify-content: flex-end; }
@@ -183,14 +176,13 @@
     font-size: 14px;
     flex-shrink: 0;
     align-self: flex-end;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   }
   .msg-avatar.user-avatar {
     background: linear-gradient(135deg, #34d399, #10b981);
     font-weight: 600;
   }
   .bubble {
-    max-width: min(78%, 520px);
+    max-width: min(80%, 520px);
     padding: 10px 14px;
     border-radius: 16px;
     font-size: 15px;
@@ -213,11 +205,10 @@
     box-shadow: 0 6px 18px var(--accent-glow);
   }
   .meta {
-    font-size: 10.5px;
+    font-size: 10px;
     color: var(--text-mute);
     margin-top: 4px;
     text-align: right;
-    opacity: 0.8;
   }
   .user .meta { color: rgba(255,255,255,0.7); }
 
@@ -250,7 +241,6 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 6px 6px 6px 14px;
-    transition: border-color 0.2s ease, background 0.2s ease;
   }
   .composer-inner:focus-within {
     border-color: var(--border-strong);
@@ -265,7 +255,6 @@
     line-height: 1.5;
     padding: 8px 0;
   }
-  .composer textarea::placeholder { color: var(--text-mute); }
   .send-btn {
     width: 40px; height: 40px;
     border: none; outline: none;
@@ -276,33 +265,24 @@
     cursor: pointer;
     flex-shrink: 0;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 14px var(--accent-glow);
   }
-  .send-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px var(--accent-glow);
-  }
-  .send-btn:active { transform: scale(0.95); }
   .send-btn:disabled {
     opacity: 0.5; cursor: not-allowed;
     background: var(--surface-2);
-    box-shadow: none;
   }
   .send-btn svg { width: 18px; height: 18px; }
 
-  /* ---------- Modal ---------- */
+  /* ---------- Modal Backdrop & Popups ---------- */
   .modal-backdrop {
     position: fixed; inset: 0;
-    background: rgba(8, 10, 20, 0.7);
+    background: rgba(8, 10, 20, 0.75);
     backdrop-filter: blur(6px);
     display: none;
     align-items: center; justify-content: center;
     z-index: 100;
-    animation: fadeIn 0.2s ease;
     padding: 16px;
   }
   .modal-backdrop.open { display: flex; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   .modal {
     width: 100%; max-width: 440px;
     background: linear-gradient(180deg, #1d233a, #161b2e);
@@ -310,142 +290,341 @@
     border-radius: 18px;
     box-shadow: var(--shadow-lg);
     padding: 22px;
-    animation: pop 0.25s cubic-bezier(0.2, 0.7, 0.3, 1.2);
   }
-  @keyframes pop {
-    from { opacity: 0; transform: scale(0.95) translateY(8px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+  .modal h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .field { margin-bottom: 14px; text-align: left; }
+  .field label, .field .step {
+    display: block; font-size: 12px; font-weight: 500;
+    color: var(--text-dim); margin-bottom: 6px;
   }
-  .modal h2 {
-    font-size: 18px; font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .modal p.hint {
-    font-size: 13px; color: var(--text-dim);
-    margin-bottom: 18px;
-  }
-  .field { margin-bottom: 14px; }
-  .field label {
-    display: block;
-    font-size: 12px; font-weight: 500;
-    color: var(--text-dim);
-    margin-bottom: 6px;
-    letter-spacing: 0.02em;
-  }
-  .field .input-wrap {
-    position: relative;
-    display: flex; align-items: center;
+  .input-wrap {
     background: var(--bg-0);
     border: 1px solid var(--border);
     border-radius: 12px;
-    transition: border-color 0.2s ease;
+    display: flex;
   }
-  .field .input-wrap:focus-within { border-color: var(--accent); }
-  .field input {
-    flex: 1;
-    width: 100%;
-    background: transparent;
-    border: none; outline: none;
-    color: var(--text);
-    font-family: inherit; font-size: 14px;
-    padding: 12px 14px;
-    letter-spacing: 0.02em;
-  }
-  .modal-actions {
-    display: flex; gap: 10px; justify-content: flex-end;
-    margin-top: 18px;
+  .field input, .field textarea {
+    width: 100%; background: transparent; border: none; outline: none;
+    color: var(--text); font-family: inherit; font-size: 14px; padding: 12px 14px;
   }
   .btn {
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-family: inherit; font-size: 14px; font-weight: 500;
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    padding: 10px 18px; border-radius: 10px; font-family: inherit; font-size: 14px;
+    border: 1px solid transparent; cursor: pointer;
   }
-  .btn.secondary {
-    background: var(--surface);
-    color: var(--text);
-    border-color: var(--border);
-  }
-  .btn.secondary:hover { background: var(--surface-2); }
-  .btn.primary {
-    background: linear-gradient(135deg, #3a76f0, #5b8def);
-    color: #fff;
-    box-shadow: 0 4px 14px var(--accent-glow);
-  }
-  .btn.primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px var(--accent-glow);
-  }
-  .status-line {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--text-dim);
-    min-height: 16px;
-  }
-  .status-line.ok { color: var(--success); }
-  .status-line.err { color: var(--danger); }
+  .btn.secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+  .btn.primary { background: linear-gradient(135deg, #3a76f0, #5b8def); color: #fff; width: 100%; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
 
-  /* ---------- Toast ---------- */
+  /* ---------- Welcome State ---------- */
+  .welcome { text-align: center; padding: 30px 20px; color: var(--text-dim); }
+  .welcome .big {
+    font-size: 32px; font-weight: 700; margin-bottom: 6px;
+    background: linear-gradient(135deg, #5b8def, #7c3aed);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  /* Toast */
   .toast {
-    position: fixed;
-    left: 50%;
-    bottom: 90px;
+    position: fixed; left: 50%; bottom: 90px;
     transform: translateX(-50%) translateY(20px);
     background: rgba(20, 25, 45, 0.95);
-    backdrop-filter: blur(10px);
     border: 1px solid var(--border-strong);
-    color: var(--text);
-    padding: 10px 16px;
-    border-radius: var(--radius-pill);
-    font-size: 13.5px;
-    box-shadow: var(--shadow-md);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 200;
+    color: var(--text); padding: 10px 16px; border-radius: var(--radius-pill);
+    font-size: 13.5px; opacity: 0; pointer-events: none; z-index: 200;
     transition: all 0.3s ease;
-    max-width: 90%;
-    text-align: center;
   }
-  .toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  .toast.error { border-color: rgba(239, 68, 68, 0.4); }
-  .toast.success { border-color: rgba(52, 211, 153, 0.4); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="avatar">🤝</div>
+      <div class="title-wrap">
+        <div class="title">የኔ ጓደኛ (Bro AI)</div>
+        <div class="subtitle"><span class="dot"></span><span id="statusText">እያወራ ነው · online</span></div>
+      </div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83-2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
 
-  /* ---------- Welcome Animation ---------- */
-  .welcome {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--text-dim);
-    font-size: 13.5px;
-  }
-  .welcome .big {
-    font-size: 32px;
-    margin-bottom: 6px;
-    background: linear-gradient(135deg, #5b8def, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-  }
-  .welcome .sub { color: var(--text-mute); font-size: 12.5px; margin-top: 4px; }
+    <!-- Chat -->
+    <main class="chat" id="chat">
+      <div class="date-divider"><span>ዛሬ · Today</span></div>
+      <div class="welcome" id="welcome">
+        <div class="big">ሰላም ብሮ 👋</div>
+        <div>እኔ ጓደኛህ ነኝ — ንገረኝ ምን ነው አለን?</div>
+      </div>
+    </main>
 
-  /* ---------- Welcome / Onboarding Modal ---------- */
-  .welcome-modal .modal {
-    max-width: 480px;
-    text-align: center;
+    <!-- Composer -->
+    <div class="composer">
+      <div class="composer-inner">
+        <textarea id="input" rows="1" placeholder="መልዕክት ጻፍ… (Enter to send)"></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding Modal (Only asks for Name) -->
+  <div class="modal-backdrop" id="welcomeModal">
+    <div class="modal" role="dialog">
+      <h2>ሰላም ብሮ! 👋 እንተዋወር</h2>
+      <p style="color: var(--text-dim); font-size: 13px; margin: 6px 0 16px;">ከመጀመሪያ ስምህን ንገረኝ — እንድታውቅህ።</p>
+      <div class="field">
+        <div class="step">① ስምህ / Your name *</div>
+        <div class="input-wrap">
+          <input id="userName" type="text" placeholder="ለምሳሌ፡ አበበ" maxlength="40" />
+        </div>
+      </div>
+      <div class="field">
+        <div class="step">② ራስህን አስተዋውቅ (optional)</div>
+        <div class="input-wrap">
+          <textarea id="userIntro" rows="2" placeholder="ስለ ራስህ ትንሽ ንገረኝ…"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions" style="justify-content: center;">
+        <button class="btn primary" id="welcomeSave" type="button">ጀምር · Get Started →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="modal">
+    <div class="modal" role="dialog">
+      <h2>⚙️ Settings · ቅንብር</h2>
+      <div class="field" style="margin-top: 14px;">
+        <label for="userNameSettings">ስምህ / Your name</label>
+        <div class="input-wrap">
+          <input id="userNameSettings" type="text" placeholder="ስምህን አስተካክል" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn secondary" id="clearBtn" type="button">Clear Chat</button>
+        <button class="btn secondary" id="closeSettingsBtn" type="button">Cancel</button>
+        <button class="btn primary" id="saveBtn" type="button" style="width: auto;">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const LS_NAME = "broai.userName";
+  const LS_INTRO = "broai.userIntro";
+  const LS_HIST = "broai.history";
+
+  const SYSTEM_PROMPT = `You are "የኔ ጓደኛ" (My Best Friend Bro AI) — a close Ethiopian best friend to the user. \
+You speak naturally in Amharic and Amharlish (አማርሊሽ), blending casual Addis Ababa street slang.
+- You are witty, funny, supportive, chill — like a true homie who has the user's back.
+- You casually use words like: አቦ, ብሮ, ተወው እስቲ, እንዴ, ምን ነው አለን, አይደለም አቦ, ይቅርታ, ቻ, እሺ ጓደኛ, አለህ? naturally.
+- Keep replies conversational — usually 1-3 sentences.`;
+
+  const $ = (id) => document.getElementById(id);
+  const chatEl = $("chat");
+  const inputEl = $("input");
+  const sendBtn = $("sendBtn");
+  const settingsBtn = $("settingsBtn");
+  const modal = $("modal");
+  const saveBtn = $("saveBtn");
+  const clearBtn = $("clearBtn");
+  const closeSettingsBtn = $("closeSettingsBtn");
+  const toastEl = $("toast");
+  const welcomeEl = $("welcome");
+  const statusText = $("statusText");
+  const welcomeModal = $("welcomeModal");
+  const userNameEl = $("userName");
+  const userIntroEl = $("userIntro");
+  const welcomeSaveBtn = $("welcomeSave");
+  const userNameSettingsEl = $("userNameSettings");
+
+  let userName = localStorage.getItem(LS_NAME) || "";
+  let userIntro = localStorage.getItem(LS_INTRO) || "";
+  let history = loadHistory();
+  let busy = false;
+  let typingEl = null;
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(LS_HIST);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
   }
-  .welcome-modal .modal h2 {
-    font-size: 22px;
-    background: linear-gradient(135deg, #5b8def, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+
+  function saveHistory() {
+    try { localStorage.setItem(LS_HIST, JSON.stringify(history.slice(-20))); } catch {}
   }
-  .welcome-modal .modal .lead {
-    color: var(--text-dim);
-    font-size: 14px;
-    margin: 6
+
+  function buildSystemPrompt() {
+    const nameLine = userName ? `The user's name is: ${userName}. Use their name naturally.` : "";
+    const introLine = userIntro ? `About user: """${userIntro}""".` : "";
+    return `${SYSTEM_PROMPT}\n${nameLine}\n${introLine}`.trim();
+  }
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.className = "toast show";
+    setTimeout(() => { toastEl.className = "toast"; }, 3000);
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(() => { chatEl.scrollTop = chatEl.scrollHeight; });
+  }
+
+  function renderAll() {
+    chatEl.querySelectorAll(".msg-row").forEach(n => n.remove());
+    welcomeEl.style.display = history.length === 0 ? "" : "none";
+    history.forEach(m => addBubble(m.role, m.content, false));
+    scrollToBottom();
+  }
+
+  function addBubble(role, content, animate = true) {
+    const row = document.createElement("div");
+    row.className = "msg-row " + (role === "user" ? "user" : "friend");
+    if (!animate) row.style.animation = "none";
+    const avatar = document.createElement("div");
+    avatar.className = "msg-avatar " + (role === "user" ? "user-avatar" : "");
+    avatar.textContent = role === "user" ? "አንተ" : "🤝";
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = content;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    chatEl.appendChild(row);
+    if (animate) scrollToBottom();
+  }
+
+  function showTyping() {
+    if (typingEl) return;
+    typingEl = document.createElement("div");
+    typingEl.className = "msg-row friend";
+    typingEl.innerHTML = `<div class="msg-avatar">🤝</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    chatEl.appendChild(typingEl);
+    scrollToBottom();
+  }
+
+  function hideTyping() {
+    if (typingEl) { typingEl.remove(); typingEl = null; }
+  }
+
+  // Settings Handlers
+  settingsBtn.addEventListener("click", () => {
+    userNameSettingsEl.value = userName;
+    modal.classList.add("open");
+  });
+  closeSettingsBtn.addEventListener("click", () => modal.classList.remove("open"));
+  saveBtn.addEventListener("click", () => {
+    const newName = userNameSettingsEl.value.trim();
+    if (newName) {
+      localStorage.setItem(LS_NAME, newName);
+      userName = newName;
+    }
+    modal.classList.remove("open");
+    showToast("ስምህ ተቀይሯል");
+  });
+  clearBtn.addEventListener("click", () => {
+    if (!confirm("ውይይቱን ላጥፋው?")) return;
+    history = [];
+    saveHistory();
+    renderAll();
+    modal.classList.remove("open");
+  });
+
+  // Welcome Handlers
+  welcomeSaveBtn.addEventListener("click", async () => {
+    const name = userNameEl.value.trim();
+    const intro = userIntroEl.value.trim();
+    if (!name) { alert("እባክህ ስምህን አስገባ"); return; }
+    localStorage.setItem(LS_NAME, name);
+    localStorage.setItem(LS_INTRO, intro);
+    userName = name;
+    userIntro = intro;
+    welcomeModal.classList.remove("open");
+    await sendMessage(`ሰላም! ስሜ ${name} ነው።`);
+  });
+
+  // Call Serverless Backend
+  async function callBackend(systemText, messages) {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ systemText, messages })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "መልስ ማግኘት አልተቻለም";
+  }
+
+  async function sendMessage(text) {
+    if (!text || busy) return;
+    history.push({ role: "user", content: text });
+    addBubble("user", text);
+    saveHistory();
+    welcomeEl.style.display = "none";
+
+    busy = true;
+    sendBtn.disabled = true;
+    statusText.textContent = "እየተዋወረ ነው…";
+    showTyping();
+
+    try {
+      const recent = history.slice(-15);
+      const sysText = buildSystemPrompt();
+      const reply = await callBackend(sysText, recent);
+      hideTyping();
+      history.push({ role: "assistant", content: reply });
+      addBubble("friend", reply);
+      saveHistory();
+      statusText.textContent = "እያወራ ነው · online";
+    } catch (e) {
+      hideTyping();
+      addBubble("friend", "⚠️ ችግር አጋጥሟል፦ ሰርቨሩ አልመለሰም። እባክህ Vercel Environment Variables ላይ GEMINI_API_KEY መመዝገቡን አረጋግጥ።");
+      statusText.textContent = "error";
+    } finally {
+      busy = false;
+      sendBtn.disabled = false;
+      inputEl.focus();
+    }
+  }
+
+  sendBtn.addEventListener("click", () => {
+    const text = inputEl.value.trim();
+    if (!text) return;
+    inputEl.value = "";
+    sendMessage(text);
+  });
+
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendBtn.click();
+    }
+  });
+
+  function init() {
+    renderAll();
+    if (!userName) {
+      welcomeModal.classList.add("open");
+    }
+  }
+  init();
+})();
+</script>
+</body>
+</html>
